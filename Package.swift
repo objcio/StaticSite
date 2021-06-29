@@ -3,6 +3,8 @@
 
 import PackageDescription
 
+// Todo we could only use swift-crypto on linux with a conditional dependency
+
 let package = Package(
     name: "StaticSite",
     platforms: [
@@ -15,7 +17,6 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "HTML", url: "https://github.com/robb/Swim.git", .branch("main")),
-        .package(url: "https://github.com/jpsim/Yams", from: "2.0.0"),
         .package(name: "CommonMark", url: "https://github.com/chriseidhof/commonmark-swift/", .branch("embed-c")),
         .package(name: "SwiftSyntax", url: "https://github.com/apple/swift-syntax.git", .exact("0.50400.0")),
         .package(name: "swift-crypto", url: "https://github.com/apple/swift-crypto.git", from: "1.1.6"),
@@ -28,7 +29,6 @@ let package = Package(
         .target(
             name: "StaticSite",
             dependencies: [
-                "Yams",
                 "CommonMark",
                 .product(name: "Swim", package: "HTML"),
                 .product(name: "HTML", package: "HTML"),
