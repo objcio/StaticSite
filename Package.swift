@@ -14,7 +14,7 @@ let package = Package(
             targets: ["StaticSite"]),
     ],
     dependencies: [
-        .package(name: "HTML", url: "https://github.com/chriseidhof/Swim.git", .branch("linux-support")),
+        .package(name: "HTML", url: "https://github.com/robb/Swim.git", .branch("main")),
         .package(url: "https://github.com/jpsim/Yams", from: "2.0.0"),
         .package(name: "CommonMark", url: "https://github.com/chriseidhof/commonmark-swift/", .branch("embed-c")),
         .package(name: "SwiftSyntax", url: "https://github.com/apple/swift-syntax.git", .exact("0.50400.0")),

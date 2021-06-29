@@ -30,10 +30,10 @@
       },
       {
         "package": "HTML",
-        "repositoryURL": "https://github.com/chriseidhof/Swim.git",
+        "repositoryURL": "https://github.com/robb/Swim.git",
         "state": {
-          "branch": "linux-support",
-          "revision": "c4920e2ccaab4a0b45d64768fdfb480213e24fbf",
+          "branch": "main",
+          "revision": "58bf32d8dcac4649d7a4f68a13beb136d6a86dd6",
           "version": null
         }
       },
