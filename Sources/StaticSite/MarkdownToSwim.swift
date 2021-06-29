@@ -9,7 +9,6 @@ import Foundation
 import HTML
 import CommonMark
 import Swim
-import SyntaxHighlighting
 
 extension CommonMark.Inline: NodeConvertible {
     @NodeBuilder public func asNode() -> Swim.Node {
@@ -53,11 +52,10 @@ extension CommonMark.Block: NodeConvertible {
         case .blockQuote(items: let items):
             blockquote { items }
         case .codeBlock(text: let text, language: let language):
-            let cl = language.map { "\($0) hljs" }
-            let t: Swim.Node = language == "swift" ? .raw(text.highlightedAsSwift) : .text(text)
+            let cl = language.map { "\($0)" }
             pre {
                 HTML.code(class: cl) {
-                    t
+                    text
                 }
             }
         case .html(text: let text):
