@@ -20,21 +20,21 @@ extension CommonMark.Inline: NodeConvertible {
         case .lineBreak:
             br()
         case .code(text: let text):
-            %HTML.code { text }
+            %HTML.code { text }%
         case .html(text: let text):
             Node.raw(text)
         case .emphasis(children: let children):
-            %HTML.em { children }
+            %HTML.em { children }%
         case .strong(children: let children):
-            %HTML.strong { children }
+            %HTML.strong { children }%
         case .custom(literal: let literal):
             literal
         case .link(children: let children, title: let title, url: let url):
             %a(href: url, title: title) {
                 children
-            }
+            }%
         case .image(children: _, title: let title, url: let url):
-            %img(src: url, title: title)
+            %img(src: url, title: title)%
         }
     }
 }
