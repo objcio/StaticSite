@@ -54,10 +54,10 @@ extension CommonMark.Block: NodeConvertible {
         case .codeBlock(text: let text, language: let language):
             let cl = language.map { "\($0)" }
             pre {
-                HTML.code(class: cl) {
+                %HTML.code(class: cl) {
                     "\n"
                     text
-                }
+                }%
             }
         case .html(text: let text):
             Node.raw(text)
