@@ -55,6 +55,7 @@ extension CommonMark.Block: NodeConvertible {
             let cl = language.map { "\($0)" }
             pre {
                 HTML.code(class: cl) {
+                    "\n"
                     text
                 }
             }
