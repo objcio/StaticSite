@@ -33,7 +33,7 @@ public struct WriteNode: Builtin {
         env.output.appendPathComponent(outputName)
         let template = environment.template
         var result = template.run(environment: env, contents: node)
-        result = environment.transformNode(environment, result)
+        result = env.transformNode(env, result)
         let output = result.render(xml: xml)
         try env.write(output.data(using: .utf8)!)
     }
