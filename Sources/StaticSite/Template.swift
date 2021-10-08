@@ -30,15 +30,5 @@ extension Rule {
 }
 
 public protocol Template {
-    func run(environment: EnvironmentValues, content: Node) -> Node
-}
-
-extension Array where Element == Template {
-    public func run(environment: EnvironmentValues, contents: Node) -> Node {
-        var result = contents
-        for t in reversed() {
-            result = t.run(environment: environment, content: result)
-        }
-        return result
-    }
+    func run(content: Node) -> Node
 }
