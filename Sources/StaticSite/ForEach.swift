@@ -15,7 +15,7 @@ public struct ForEach<Element, Content: Rule>: Builtin {
     
     var data: [Element]
     var content: (Element) -> Content
-    var parallel: Bool = true
+    var parallel: Bool = false // this can cause problems with the environment!
     
     public func run(environment: EnvironmentValues) throws {
         if parallel {
