@@ -3,7 +3,6 @@
 
     let url = URL(string: "file:///tmp")!
 
-
     final class StaticSiteTests: XCTestCase {
         func testRun() throws {
             struct TestOutputPath: Rule {
@@ -24,12 +23,11 @@
         func testOutputPath() throws {
             struct TestOutputPath: Rule {
                 var exp: XCTestExpectation
+                @Environment(\.output) var output
                 var body: some Rule {
-                    EnvironmentReader { env in
-                        let _ = XCTAssertEqual(env.output, URL(string: "file:///tmp/")!)
-                        let _ = exp.fulfill()
-                        EmptyRule()
-                    }
+                    let _ = XCTAssertEqual(output, URL(string: "file:///tmp/")!)
+                    let _ = exp.fulfill()
+                    EmptyRule()
                 }
             }
 
@@ -43,12 +41,11 @@
         func testOutputPath2() throws {
             struct TestOutputPath: Rule {
                 var exp: XCTestExpectation
+                @Environment(\.output) var output
                 var body: some Rule {
-                    EnvironmentReader { env in
-                        let _ = XCTAssertEqual(env.output, URL(string: "file:///tmp/sub")!)
-                        let _ = exp.fulfill()
-                        EmptyRule()
-                    }
+                    let _ = XCTAssertEqual(output, URL(string: "file:///tmp/sub")!)
+                    let _ = exp.fulfill()
+                    EmptyRule()
                 }
             }
 
@@ -63,12 +60,11 @@
         func testRelativeOutputPath() throws {
             struct TestOutputPath: Rule {
                 var exp: XCTestExpectation
+                @Environment(\.relativeOutputPath) var rel
                 var body: some Rule {
-                    EnvironmentReader { env in
-                        let _ = XCTAssertEqual(env.relativeOutputPath, "/sub")
-                        let _ = exp.fulfill()
-                        EmptyRule()
-                    }
+                    let _ = XCTAssertEqual(rel, "/sub")
+                    let _ = exp.fulfill()
+                    EmptyRule()
                 }
             }
 

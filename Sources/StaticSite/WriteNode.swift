@@ -31,8 +31,12 @@ public struct WriteNode: Builtin {
     public func run(environment: EnvironmentValues) throws {
         var env = environment
         env.relativeOutputPath = (env.relativeOutputPath as NSString).appendingPathComponent(outputName)
-        let template = environment.template
-        var result = template.run(environment: env, contents: node)
+        let templates = environment.template
+        var result = node
+        for t in templates.reversed() {
+            env.install(on: t)
+            result = t.run(content: result)
+        }
         result = env.transformNode(env, result)
         let output = result.render(xml: xml)
         try env.write(output.data(using: .utf8)!)

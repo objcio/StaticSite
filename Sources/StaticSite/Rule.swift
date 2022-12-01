@@ -10,7 +10,10 @@ public struct AnyBuiltin: Builtin {
     let _run: (EnvironmentValues) throws -> ()
     
     public init<R: Rule>(_ value: R) {
-        self._run = { try value.body.builtin.run(environment: $0) }
+        self._run = { env in
+            env.install(on: value)
+            try value.body.builtin.run(environment: env)
+        }
     }
     
     public func run(environment: EnvironmentValues) throws {

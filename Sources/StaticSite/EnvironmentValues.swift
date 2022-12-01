@@ -133,6 +133,7 @@ extension EnvironmentValues {
     }
 }
 
+@available(*, deprecated, message: "Use @Enviroment instead")
 public struct EnvironmentReader<R: Rule>: Builtin {
     var content: (EnvironmentValues) -> R
     
@@ -143,5 +144,46 @@ public struct EnvironmentReader<R: Rule>: Builtin {
         try content(environment)
             .builtin
             .run(environment: environment)
+    }
+}
+
+extension EnvironmentValues {
+    func install<A>(on: A) {
+        let m = Mirror(reflecting: on)
+        for child in m.children {
+            if let e = child.value as? SetEnvironment {
+                e.set(environment: self)
+            }
+        }
+    }
+}
+
+@propertyWrapper
+class Box<A> {
+    var wrappedValue: A
+    init(wrappedValue: A) {
+        self.wrappedValue = wrappedValue
+    }
+}
+
+protocol SetEnvironment {
+    func set(environment: EnvironmentValues)
+}
+
+@propertyWrapper
+public struct Environment<Value>: SetEnvironment {
+    var keyPath: KeyPath<EnvironmentValues, Value>
+    @Box fileprivate var values: EnvironmentValues?
+    
+    public init(_ keyPath: KeyPath<EnvironmentValues, Value>) {
+        self.keyPath = keyPath
+    }
+    
+    public var wrappedValue: Value? {
+        values![keyPath: keyPath]
+    }
+    
+    func set(environment: EnvironmentValues) {
+        values = environment
     }
 }
