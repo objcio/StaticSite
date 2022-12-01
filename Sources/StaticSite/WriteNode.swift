@@ -12,7 +12,7 @@ public struct Write: Builtin {
 
     public func run(environment: EnvironmentValues) throws {
         var env = environment
-        env.output.appendPathComponent(outputName)
+        env.relativeOutputPath = (env.relativeOutputPath as NSString).appendingPathComponent(outputName)
         try env.write(data)
     }
 }
@@ -30,7 +30,7 @@ public struct WriteNode: Builtin {
 
     public func run(environment: EnvironmentValues) throws {
         var env = environment
-        env.output.appendPathComponent(outputName)
+        env.relativeOutputPath = (env.relativeOutputPath as NSString).appendingPathComponent(outputName)
         let template = environment.template
         var result = template.run(environment: env, contents: node)
         result = env.transformNode(env, result)

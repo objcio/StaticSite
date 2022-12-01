@@ -17,14 +17,18 @@ public struct EnvironmentValues {
     public init(fileManager: FileManager = FileManager.default, inputBaseURL: URL, outputBaseURL: URL) {
         self.fileManager = fileManager
         self.inputBaseURL = inputBaseURL
-        self.output = outputBaseURL
+        self.outputBaseURL = outputBaseURL
         self.transformNode = { $1 }
     }
     
     public var fileManager = FileManager.default
     public var inputBaseURL: URL
+    public internal(set) var relativeOutputPath = "/"
     public var templates: [Template] = []
-    public var output: URL
+    public var outputBaseURL: URL
+    public var output: URL {
+        outputBaseURL.appendingPathComponent(relativeOutputPath)
+    }
     public var transformNode: (EnvironmentValues, Node) -> Node // this runs before rendering a node
     var userDefined: [ObjectIdentifier:Any] = [:]
 
@@ -109,8 +113,8 @@ public extension Rule {
 
 extension Rule {
     public func outputPath(_ string: String) -> some Rule {
-        modifyEnvironment(keyPath: \.output, modify: { path in
-            path.appendPathComponent(string)
+        modifyEnvironment(keyPath: \.relativeOutputPath, modify: { path in
+            path = (path as NSString).appendingPathComponent(string)
         })
     }
 }
