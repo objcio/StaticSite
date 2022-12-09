@@ -31,9 +31,10 @@ struct HTMLBuilder: MarkupVisitor {
         .fragment(children.map { visit($0) })
     }
 
-    func defaultVisit(_ markup: Markup) -> Node {
-        fatalError("Not supported") // todo?
+    mutating func defaultVisit(_ markup: Markup) -> Node {
+        visit(markup.children)
     }
+
 
     func visitText(_ text: Markdown.Text) -> Node {
         text.string.asNode()
