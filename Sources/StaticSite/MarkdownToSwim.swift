@@ -10,6 +10,19 @@ import HTML
 import Markdown
 import Swim
 
+extension Markup {
+    public func toNode() -> Node {
+        var b = HTMLBuilder()
+        return b.visit(self)
+    }
+}
+
+extension String {
+    public func markdown() -> Node {
+        Document(parsing: self).toNode()
+    }
+}
+
 // todo should this be a visitor?
 struct HTMLBuilder: MarkupVisitor {
     typealias Result = Node
