@@ -17,7 +17,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "HTML", url: "https://github.com/robb/Swim.git", .branch("main")),
-        .package(name: "CommonMark", url: "https://github.com/chriseidhof/commonmark-swift/", .branch("embed-c")),
+        .package(url: "https://github.com/apple/swift-markdown", .branch("main")),
         .package(name: "swift-crypto", url: "https://github.com/apple/swift-crypto.git", from: "1.1.6"),
     ],
     targets: [
@@ -25,7 +25,7 @@ let package = Package(
         .target(
             name: "StaticSite",
             dependencies: [
-                "CommonMark",
+                .product(name: "Markdown", package: "swift-markdown"),
                 .product(name: "Swim", package: "HTML"),
                 .product(name: "HTML", package: "HTML"),
                 .product(name: "Crypto", package: "swift-crypto"),
