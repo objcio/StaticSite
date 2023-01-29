@@ -15,7 +15,14 @@ public struct AnyBuiltin: Builtin {
             try value.body.builtin.run(environment: env)
         }
     }
-    
+
+    public init(any value: any Rule) {
+        self._run = { env in
+            env.install(on: value)
+            try value.body.builtin.run(environment: env)
+        }
+    }
+
     public func run(environment: EnvironmentValues) throws {
         try _run(environment)
     }
