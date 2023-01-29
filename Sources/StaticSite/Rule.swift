@@ -98,6 +98,14 @@ public enum RuleBuilder {
         content
     }
 
+    public static func buildEither<Content>(first component: Content) -> Content {
+        component
+    }
+
+    public static func buildEither<Content>(second component: Content) -> Content {
+        component
+    }
+
     public static func buildBlock<C0, C1>(_ c0: C0, _ c1: C1) -> Pair<C0, C1> where C0 : Rule, C1 : Rule {
         return Pair(c0, c1)
     }
