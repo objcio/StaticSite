@@ -84,6 +84,20 @@ public struct Pair<L, R>: Builtin where L: Rule, R: Rule {
     }
 }
 
+public enum Choice<L, R>: Builtin where L: Rule, R: Rule {
+    case left(L)
+    case right(R)
+
+    public func run(environment: EnvironmentValues) throws {
+        switch self {
+        case .left(let rule):
+            try rule.builtin.run(environment: environment)
+        case .right(let rule):
+            try rule.builtin.run(environment: environment)
+        }
+    }
+}
+
 @resultBuilder
 public enum RuleBuilder {
     public static func buildBlock() -> EmptyRule {
@@ -98,13 +112,14 @@ public enum RuleBuilder {
         content
     }
 
-    public static func buildEither<Content>(first component: Content) -> Content {
-        component
+    public static func buildEither<L, R>(first component: L) -> Choice<L, R> {
+        .left(component)
     }
 
-    public static func buildEither<Content>(second component: Content) -> Content {
-        component
+    public static func buildEither<L, R>(second component: R) -> Choice<L, R> {
+        .right(component)
     }
+
 
     public static func buildBlock<C0, C1>(_ c0: C0, _ c1: C1) -> Pair<C0, C1> where C0 : Rule, C1 : Rule {
         return Pair(c0, c1)
