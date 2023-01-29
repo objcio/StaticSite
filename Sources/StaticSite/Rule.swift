@@ -17,9 +17,13 @@ public struct AnyBuiltin: Builtin {
     }
 
     public init(any value: any Rule) {
-        self._run = { env in
-            env.install(on: value)
-            try value.body.builtin.run(environment: env)
+        if let b = value as? any Builtin {
+            self._run = { try b.run(environment: $0) }
+        } else {
+            self._run = { env in
+                env.install(on: value)
+                try value.body.builtin.run(environment: env)
+            }
         }
     }
 
